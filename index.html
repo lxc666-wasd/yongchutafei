@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙族AI设计 | 个人设计接单官网</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑",sans-serif;
+        }
+        body{
+            background-color: #0b0c1a;
+            color: #e5e7eb;
+            line-height: 1.8;
+        }
+        /* 导航栏 */
+        header{
+            width: 100%;
+            background: rgba(15,18,35,0.95);
+            border-bottom: 1px solid #2a2d4a;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        .nav-container{
+            width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .logo{
+            font-size: 24px;
+            font-weight: bold;
+            color: #72c8ff;
+            letter-spacing: 2px;
+        }
+        .logo span{
+            color: #e6a23c;
+        }
+        .nav-menu a{
+            color: #cbd5e1;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .nav-menu a:hover{
+            color: #e6a23c;
+        }
+
+        /* 首页Banner */
+        .banner{
+            width: 100%;
+            height: 580px;
+            background: url("https://picsum.photos/id/112/1920/1080") no-repeat center;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .banner::after{
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: rgba(8,10,24,0.75);
+            position: absolute;
+            left: 0;top: 0;
+        }
+        .banner-text{
+            position: relative;
+            z-index: 2;
+            width: 1200px;
+            margin: 0 auto;
+            padding-left: 30px;
+        }
+        .banner-text h1{
+            font-size: 48px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .banner-text h1 span{
+            color: #e6a23c;
+        }
+        .banner-text p{
+            font-size: 18px;
+            color: #b8c2dc;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        .btn-group a{
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .btn-primary{
+            background: #e6a23c;
+            color: #000;
+        }
+        .btn-outline{
+            border: 1px solid #72c8ff;
+            color: #72c8ff;
+            background: transparent;
+        }
+        .btn-primary:hover{
+            background: #c98e2a;
+        }
+        .btn-outline:hover{
+            background: #72c8ff;
+            color: #000;
+        }
+
+        /* 通用板块样式 */
+        .section{
+            width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        .sec-title{
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .sec-title::after{
+            content: "";
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg,#72c8ff,#e6a23c);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -12px;
+        }
+
+        /* 关于我 */
+        .about-wrap{
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+        .about-img{
+            width: 450px;
+            height: 320px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .about-img img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .about-text h3{
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #72c8ff;
+        }
+        .tag-list{
+            margin-top: 20px;
+        }
+        .tag-list span{
+            display: inline-block;
+            padding: 6px 15px;
+            background: #1e2238;
+            border-radius: 20px;
+            margin: 5px 8px 5px 0;
+            font-size: 14px;
+            color: #e6a23c;
+        }
+
+        /* 服务板块 */
+        .service-grid{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 25px;
+        }
+        .service-card{
+            background: #15182e;
+            border: 1px solid #2a2d4a;
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .service-card:hover{
+            transform: translateY(-8px);
+            border-color: #e6a23c;
+        }
+        .service-card h4{
+            margin: 15px 0;
+            color: #72c8ff;
+        }
+
+        /* 作品展示 */
+        .works-grid{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 20px;
+        }
+        .works-item{
+            border-radius: 8px;
+            overflow: hidden;
+            background: #15182e;
+        }
+        .works-item img{
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        .works-item img:hover{
+            transform: scale(1.05);
+        }
+
+        /* 龙族AI特色板块 */
+        .dragon-block{
+            background: #12152b;
+            padding: 60px 0;
+            margin: 60px 0;
+        }
+        .dragon-content{
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .dragon-img{
+            width: 50%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .dragon-text{
+            width: 50%;
+        }
+
+        /* 联系&页脚 */
+        .contact-info{
+            text-align: center;
+        }
+        footer{
+            background: #080a18;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid #2a2d4a;
+            font-size: 14px;
+            color: #8892b0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">龙族<span>AI</span>设计</div>
+            <div class="nav-menu">
+                <a href="#home">首页</a>
+                <a href="#about">关于我</a>
+                <a href="#works">作品展示</a>
+                <a href="#service">设计服务</a>
+                <a href="#dragon">龙族创作</a>
+                <a href="#price">收费标准</a>
+                <a href="#contact">联系我</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner首页 -->
+    <section class="banner" id="home">
+        <div class="banner-text">
+            <h1>AI创意设计 <span>· 龙族动漫定制</span></h1>
+            <p>独立视觉设计师｜专注AI数字设计 & 龙族幻想动漫主题创作，承接全品类设计商单，一对一专属定制，高效交付</p>
+            <div class="btn-group">
+                <a href="#contact" class="btn-primary">立即咨询接单</a>
+                <a href="#works" class="btn-outline">浏览作品集</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section class="section" id="about">
+        <h2 class="sec-title">关于我</h2>
+        <div class="about-wrap">
+            <div class="about-img">
+                <img src="https://picsum.photos/id/113/800/600" alt="设计师形象">
+            </div>
+            <div class="about-text">
+                <h3>独立设计师 / AI视觉创作者</h3>
+                <p>你好！我是一名深耕数字视觉设计的自由创作者，主打<strong>AI智能设计</strong>与<strong>龙族动漫次元</strong>两大创作方向。</p>
+                <p>擅长AI插画、概念场景、龙系国风、幻想巨龙、动漫同人、IP人设定制，融合手绘审美与AI高效创作，拒绝模板化量产。</p>
+                <p>对待每一份商单认真负责，支持风格定制、多次修改、细节打磨，适合个人约稿、店铺美工、二次元主题、幻想风视觉需求。</p>
+                <div class="tag-list">
+                    <span>AI视觉设计</span>
+                    <span>龙族动漫原创</span>
+                    <span>二次元定制</span>
+                    <span>商业设计接单</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设计服务 -->
+    <section class="section" id="service">
+        <h2 class="sec-title">设计服务</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <h4>AI全品类设计</h4>
+                <p>AI海报、插画、头像、概念图、视觉合成、图片精修</p>
+            </div>
+            <div class="service-card">
+                <h4>龙族主题定制</h4>
+                <p>东方神龙、西方巨龙、龙系人设、壁纸、立绘、同人</p>
+            </div>
+            <div class="service-card">
+                <h4>商业视觉设计</h4>
+                <p>宣传海报、封面、排版、配图、简约LOGO、美工</p>
+            </div>
+            <div class="service-card">
+                <h4>私人专属约稿</h4>
+                <p>个性化人设、幻想风插画、私人壁纸、小众定制</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品展示 -->
+    <section class="section" id="works">
+        <h2 class="sec-title">精选作品</h2>
+        <div class="works-grid">
+            <div class="works-item">
+                <img src="https://picsum.photos/id/115/600/400" alt="龙族AI作品">
+            </div>
+            <div class="works-item">
+                <img src="https://picsum.photos/id/116/600/400" alt="动漫设计">
+            </div>
+            <div class="works-item">
+                <img src="https://picsum.photos/id/117/600/400" alt="AI视觉">
+            </div>
+            <div class="works-item">
+                <img src="https://picsum.photos/id/118/600/400" alt="巨龙主题">
+            </div>
+            <div class="works-item">
+                <img src="https://picsum.photos/id/119/600/400" alt="次元插画">
+            </div>
+            <div class="works-item">
+                <img src="https://picsum.photos/id/120/600/400" alt="商业定制">
+            </div>
+        </div>
+    </section>
+
+    <!-- 龙族AI特色板块 -->
+    <section class="dragon-block" id="dragon">
+        <div class="section">
+            <h2 class="sec-title">龙族 × AI 原创创作</h2>
+            <div class="dragon-content">
+                <div class="dragon-img">
+                    <img src="https://picsum.photos/id/121/800/500" alt="龙族主题视觉" style="width:100%;">
+                </div>
+                <div class="dragon-text">
+                    <h3 style="color:#e6a23c;margin-bottom:20px;">以龙为魂，以AI为笔</h3>
+                    <p>痴迷龙族幻想美学，融合东方古韵神龙与西方魔幻巨龙世界观，打造高辨识度的专属视觉风格。</p>
+                    <p>借助AI创作技术突破创意上限，实现复杂场景、幻想巨兽、暗黑次元、唯美龙域场景快速落地。</p>
+                    <p>所有龙族主题作品支持<strong>个人非商用 / 轻度商用 / 独家买断</strong>多种授权模式，欢迎长期主题定制合作。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 收费标准 -->
+    <section class="section" id="price">
+        <h2 class="sec-title">收费标准</h2>
+        <div style="max-width:800px;margin:0 auto;text-align:center;font-size:16px;">
+            <p>✅ 明码标价 | 无隐形消费 | 按需分级报价</p>
+            <p>▪ 基础简约款：快速出图，性价比首选，适合日常头像、简单配图</p>
+            <p>▪ 精致定制款：多版草稿+精细细化，适合动漫人设、主题海报</p>
+            <p>▪ 商用授权款：含版权使用权限，可用于店铺、宣传、公开商用</p>
+            <p>▪ 龙族&AI专属定制：深度风格定制、原创世界观设计，一对一沟通</p>
+            <p style="margin-top:20px;color:#72c8ff;">具体价格根据需求尺寸、复杂度、修改次数、授权类型定制报价</p>
+        </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section class="section" id="contact">
+        <h2 class="sec-title">联系我 · 商务接单</h2>
+        <div class="contact-info">
+            <p style="font-size:17px;margin-bottom:15px;">欢迎咨询设计需求、约稿合作、长期定制</p>
+            <p>微信：<strong>请自行填写</strong></p>
+            <p>QQ：<strong>请自行填写</strong></p>
+            <p>邮箱：<strong>请自行填写</strong></p>
+            <p style="margin-top:30px;color:#e6a23c;">全天在线沟通 | 快速回复 | 稳定交付</p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>©2026 龙族AI设计 | 个人独立设计师官网 版权所有</p>
+        <p>禁止盗用、二改、私自商用所有原创作品</p>
+    </footer>
+</body>
+</html>
